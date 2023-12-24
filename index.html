@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Queues</title>
+   
+    <link rel="stylesheet" href="styles.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/lib/jquery-3.6.0.min.js"></script>
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/source/2.0/js/dave_utils.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/dist/js/socket.io-mini.js"></script>
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/dist/js/socket.stream.io-mini.js"></script>
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/dist/js/RecordRTC-mini.js"></script>
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/lib/flac-dep.js"></script>
+    <script src="https://unity-plugin.iamdave.ai/conversation-plugin/dist/js/vad-mini.js"></script>
+
+    <
+    
+
+    <script src="conversation.js"></script>
+    <script src="streamer.js"></script>
+
+    
+  </head>
+  <body>
+<script>
+  var jsonText;
+</script>
+    <div id="landingForm">
+      <div class="title-container">
+        <h1>Multi-Network Queues</h1>
+      </div>
+      <div class="container">
+        <div class="form-toggle">
+          <button id="signInBtn">Sign In</button>
+          <button id="signUpBtn">Sign Up</button>
+        </div>
+        <div class="form-container">
+          <form id="signInForm">
+            <h3>Sign In</h3>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+
+            <button type="submit" class="signBtn">Sign In</button>
+          </form>
+
+          <form id="signUpForm">
+            <h3>Sign Up</h3>
+            <label for="newUsername">Username</label>
+            <input type="text" id="newUsername" name="newUsername" required />
+
+            <label for="newPassword">Password</label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              required
+            />
+
+            <button type="submit" class="signBtn">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="jsonContainer" style="display: none;">
+      <div class="split left p-4">
+        <form onsubmit="generateJSON(event)" id="jsonForm">
+            <h2>Game Configuration</h2>
+            <div id="button-div-wrapper" style="margin-top: 15px;">
+              <p style="font-weight: bold;">Available Configurations:</p>
+              <div id = "buttons-div">
+
+              </div>
+          </div>
+            <div class="form-group" style="margin-top: 10px;">
+              <p style="font-weight: bold;">Create custom configuration: </p>
+                <label for="scenario">Scenario:</label>
+                <select class="form-control" id="scenario" name="scenario" required>
+                    <option value="PCB">PCB</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="spawn_prefab">Spawn Prefab:</label>
+                <select class="form-control" id="spawn_prefab" name="spawn_prefab" required>
+                    <option value="PlainBoard">PlainBoard</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="config_name">Config Name:</label>
+              <input class="form-control" id="config_name" name="config_name" required>
+              
+          </div>
+            
+            <div id="levels-container">
+                <!-- Dynamically generated fields for levels -->
+            </div>
+            <div class="int-div">
+            <button type="button" class="btn btn-primary mt-3 json-btn ml-1 mr-1" id="add-level" onclick="addLevel()">Add Level</button>
+            <button type="submit" class="btn btn-success mt-3 json-btn ml-1 mr-1">Submit</button>
+          </div>
+        </form>
+    </div>
+      
+    </div>
+
+    <div id = "no-game-container" class="split right hidden">
+      <p>Select a configuration to start!</p> 
+    </div>
+    <div id="unity-container" class="unity-desktop split right p-3" style="position: absolute;">
+      <canvas id="unity-canvas" width="100%" height="62.5%"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+
+        <!-- <div id="unity-webgl-logo"></div> -->
+        <div id="unity-fullscreen-button"></div>
+        <div id="conversation_form" class="pt-1">
+          <label for="customer_response" style="font-weight: bold;">Type Your Query Here</label>
+          <input type="text" id="customer_response" name="customer_response" required />
+          <div class="int-div">
+          <button id="RecordBtn" onclick="startRec()" class="int-btn">Record</button>
+        <button id="StopRecordBtn" onclick="stopRec()" class="int-btn">Stop Recording</button>
+        <button id="conversationBtn" class="int-btn">Send</button>
+
+      </div>
+        </div>
+        <!-- <div id="unity-build-title">q_project</div> -->
+      </div>
+    </div>
+
+
+
+
+    <script> // speech to text
+      var streamer_settings = {
+        asr: true,
+        asr_server: "https://speech.iamdave.ai",
+        recognizer: 'google',
+        model_name: "indian_english",
+        conversation_id: "deployment_queuess",
+        enterprise_id: "student_test",
+        base_url: "https://test.iamdave.ai",
+        vad: true,
+        audio_auto_stop: 10,
+        asr_type: "full",
+        asr_additional_info: {},
+        event_callback: function (status, data) {
+          conversationStart(data["recognized_speech"]);
+
+          console.log("my status == "+status)
+          if (status == "asr-convResp") {
+            myUnityInstance.SendMessage(
+        "Assistantcode",
+        "spawnDave",
+        JSON.stringify(data["response_channels"])
+      );
+
+            
+          }
+          if (status == "asr-recText") {
+          }
+          if (status == "asr-processing") {
+
+          }
+          if (status == "asr-recording") {
+
+          }
+          if (status == "asr-idel") {
+
+          }
+          //that.eventCallback(event, data);
+        }
+      }
+
+      var streamer = new Streamer(streamer_settings);
+      function startRec() {
+        streamer.startVoiceRecording({
+          voice_id: 'english-male',
+          query_type: "speech",
+          language: 'english',
+          system_response: "sr_init"
+        })
+      }
+      function stopRec() {
+        streamer.stopVoiceRecording()
+      }
+    </script>
+    <script src="unityScript.js"></script>
+    <script src="loginScript.js"></script>
+    <script src="jsonScript.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

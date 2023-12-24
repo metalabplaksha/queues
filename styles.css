@@ -1,0 +1,187 @@
+body {
+    font-family: 'Roboto', serif;
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text */
+    margin: 0;
+    padding: 0;
+}
+
+.title-container {
+    text-align: center;
+    margin-top: 100px; /* Adjust the top margin to center the title vertically */
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container */
+    border-radius: 10px;
+}
+
+.form-toggle {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.form-toggle button {
+    margin: 0 5px;
+    padding: auto;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 25%;
+    background-color: #007bff; /* Blue button background */
+    color: #ffffff; /* White text */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.form-toggle button.active {
+    transform: scale(1.1);
+}
+
+.form-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    display: none;
+}
+
+form.active {
+    display: block;
+}
+div.active {
+    display: block;
+}
+
+h3, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #007bff; /* Blue border */
+    background-color: transparent;
+    margin-bottom: 20px;
+    color: #000000; /* Black text */
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea {
+    border-color: #4CAF50; /* Green border on focus */
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff; /* Blue button background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input.button {
+    width: 50%;
+    padding: 12px;
+    background-color: #007bff; /* Blue button background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+button:hover, input.button:hover {
+    background-color: #45a049; /* Green button background on hover */
+}
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  /* Control the left side */
+  .left {
+    left: 0;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #000000;
+  }
+  
+  /* Control the right side */
+  .right {
+    right: 0;
+  }
+
+  #no-game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #no-game-container.hidden {
+    display: none;
+  }
+
+.config-btn{
+    width: auto;
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+
+}
+
+#buttons-div {
+    overflow: auto;
+  white-space: nowrap;
+}
+
+.int-btn {
+    width: 33%;
+    display: inline-block;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 4px;
+}
+
+.int-div {
+    display: flex;
+}
+
+.json-btn {
+    width: 50%;
+    display: inline-block;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 4px;
+}
+
+.signBtn {
+    border-radius: 5px;
+}
