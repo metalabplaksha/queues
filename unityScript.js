@@ -191,8 +191,8 @@ var container = document.querySelector("#unity-container");
 
           console.log("Focus");
           myUnityInstance.SendMessage("GameManager", "disableKeyboardInput");
-          var canvas = document.getElementById("unity-canvas");
-          var input = document.getElementById("customer_response");
+          // var canvas = document.getElementById("unity-canvas");
+          // var input = document.getElementById("customer_response");
         }
 
         // Function to be triggered when input is clicked outside
@@ -200,8 +200,8 @@ var container = document.querySelector("#unity-container");
             // You can add more code here to perform specific actions
             console.log("Blur");
             myUnityInstance.SendMessage("GameManager", "enableKeyboardInput");
-            var canvas = document.getElementById("unity-canvas");
-            var input = document.getElementById("customer_response");
+            // var canvas = document.getElementById("unity-canvas");
+            // var input = document.getElementById("customer_response");
             myUnityInstance.SendMessage("Main Camera", "enableMouse");
 
 
@@ -211,6 +211,9 @@ var container = document.querySelector("#unity-container");
         // Add event listeners for the focus and blur events
         input.addEventListener('focus', handleInputFocus);
         input.addEventListener('click', handleInputFocus);
+        document.getElementById(
+          'jsonContainer'
+        ).addEventListener('click', handleInputFocus);
         canvas.addEventListener('click', function() { 
 
           myUnityInstance.SendMessage("GameManager", "enableKeyboardInput");
