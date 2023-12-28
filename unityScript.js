@@ -17,6 +17,8 @@ function createJsonButtons(jsonData) {
     button.className = 'config-btn btn btn-primary btn-md';
     button.textContent = `${json["config_name"]}`;
     button.addEventListener('click', () => {
+      populateForm(json);
+
       processJson(json);
     });
 
@@ -33,6 +35,7 @@ function createDefaultButton(defJson) {
   button.className = 'config-btn btn btn-primary btn-md mr-2';
   button.textContent = `Default Config`;
   button.addEventListener('click', () => {
+    populateForm(defJson);
     processJson(defJson);
   });
 

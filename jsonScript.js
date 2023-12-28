@@ -10,10 +10,10 @@ const prefabB = [
     "ComponentsPlacedBoard"
 ];
 
-let levelCounter = 1;
+let levelCounter = 0;
 
 function addLevel() {
-    if (levelCounter > 7) {
+    if (levelCounter == 7) {
         alert("You can't add more than 7 levels.");
         return;
     }
@@ -24,7 +24,7 @@ function addLevel() {
     levelDiv.className = "border p-3 mt-3";
 
     const levelTitle = document.createElement("h4");
-    levelTitle.textContent = `Level ${levelCounter}`;
+    levelTitle.textContent = `Level ${levelCounter + 1}`;
     levelDiv.appendChild(levelTitle);
 
     const fields = ["service_rates", "queue_sizes"];
@@ -43,7 +43,7 @@ function addLevel() {
         levelDiv.appendChild(input);
     });
 
-    if (levelCounter === 1) {
+    if (levelCounter === 0) {
         const spawnLabel = document.createElement("label");
         spawnLabel.textContent = "Spawn Rates (comma-separated):";
 
@@ -59,34 +59,40 @@ function addLevel() {
 
     const prefabLabel = document.createElement("label");
     prefabLabel.textContent = "Server Prefab Name:";
+    prefabLabel.style.display = "none";
     levelDiv.appendChild(prefabLabel);
+    
 
     const prefabSelect = document.createElement("select");
     prefabSelect.className = "form-control";
     prefabSelect.name = "server_prefab_name[]";
-    const prefabAValue = prefabA[levelCounter - 1];
+    const prefabAValue = prefabA[levelCounter];
     const prefabAOption = document.createElement("option");
     prefabAOption.value = prefabAValue;
     prefabAOption.textContent = prefabAValue;
+    prefabSelect.style.display = "none";
     prefabSelect.appendChild(prefabAOption);
     levelDiv.appendChild(prefabSelect);
 
     const outputLabel = document.createElement("label");
     outputLabel.textContent = "Output Task Prefab Name:";
+    outputLabel.style.display = "none";
     levelDiv.appendChild(outputLabel);
 
     const outputSelect = document.createElement("select");
     outputSelect.className = "form-control";
     outputSelect.name = "output_task_prefab_name[]";
-    const prefabBValue = prefabB[levelCounter - 1];
+    const prefabBValue = prefabB[levelCounter];
     const prefabBOption = document.createElement("option");
     prefabBOption.value = prefabBValue;
     prefabBOption.textContent = prefabBValue;
+    outputSelect.style.display = "none";
     outputSelect.appendChild(prefabBOption);
     levelDiv.appendChild(outputSelect);
 
     const rejectionLabel = document.createElement("label");
     rejectionLabel.textContent = "Rejection Allowed:";
+    
     levelDiv.appendChild(rejectionLabel);
 
     const rejectionSelect = document.createElement("select");
@@ -102,7 +108,10 @@ function addLevel() {
     falseOption.value = "false";
     falseOption.textContent = "No";
     rejectionSelect.appendChild(falseOption);
-
+    if (levelCounter != 6) {
+        rejectionLabel.style.display = "none";
+        rejectionSelect.style.display = "none";
+    }
     levelDiv.appendChild(rejectionSelect);
 
     levelsContainer.appendChild(levelDiv);
@@ -116,7 +125,7 @@ function generateJSON(event) {
     const formData = new FormData(form);
     const levels = [];
 
-    for (let i = 0; i < levelCounter - 1; i++) {
+    for (let i = 0; i < levelCounter; i++) {
         const level = {};
         const fields = ["service_rates", "queue_sizes"];
 
@@ -151,4 +160,46 @@ function generateJSON(event) {
     console.log(jsonText);
     postJsonModel(jsonText, "user_created");
     loadUnityInstance();
+}
+
+
+function removeLevel() {
+    if (levelCounter > 0) {
+        const levelsContainer = document.getElementById("levels-container");
+        levelsContainer.removeChild(levelsContainer.lastChild);
+        levelCounter--;
+    }
+}
+
+function populateForm(jsonData) {
+    const levelsData = jsonData["config_data"]["levels"];
+    console.log(levelsData  )
+    const reqLevels = levelsData.length;
+    if (reqLevels > levelCounter) {
+        while (levelCounter != reqLevels) {
+            addLevel();
+            
+        }
+       
+    }
+    else if (reqLevels < levelCounter) {
+        while (levelCounter != reqLevels) {
+            removeLevel();
+        }
+    }
+
+    for (let i = 0; i < reqLevels; i++) {
+        const levelDiv = document.getElementById("levels-container").children[i];
+        const levelData = levelsData[i];
+        if (i == 0) {
+            levelDiv.children[6].value = levelData["spawn_rates"].join(",");
+        }
+        levelDiv.children[2].value = levelData["service_rates"].join(",");
+        levelDiv.children[4].value = levelData["queue_sizes"].join(",");
+        // if (i == 6) {
+        //     const flag = levelData["rejection_allowed"] ? 1 : 0;
+        //     const option = flag == 1 ? levelDiv.children[9].children[0] : levelDiv.children[9].children[1];
+
+        // }
+    }
 }
