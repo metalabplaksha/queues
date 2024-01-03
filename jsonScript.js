@@ -107,6 +107,7 @@ function addLevel() {
     const falseOption = document.createElement("option");
     falseOption.value = "false";
     falseOption.textContent = "No";
+    falseOption.selected = "selected";
     rejectionSelect.appendChild(falseOption);
     if (levelCounter != 6) {
         rejectionLabel.style.display = "none";
@@ -119,9 +120,11 @@ function addLevel() {
 }
 
 function generateJSON(event) {
+    console.log("generate");
     event.preventDefault();
 
-    const form = event.target;
+    const form = document.getElementById("jsonForm");
+    console.log(form);
     const formData = new FormData(form);
     const levels = [];
 
@@ -132,14 +135,12 @@ function generateJSON(event) {
         fields.forEach(field => {
             const inputName = `${field}[]`;
             const inputValues = formData.getAll(inputName);
-            console.log(inputValues[i]);
-            console.log(field);
+
             level[field] = inputValues[i].split(',').map(value => value.trim());
         });
 
         if (i === 0 && formData.has("spawn_rates[]")) {
             const spawnRatesValues = formData.getAll("spawn_rates[]")[0];
-            console.log(spawnRatesValues);
             level.spawn_rates = spawnRatesValues.split(',').map(value => value.trim());
         }
 
@@ -173,7 +174,6 @@ function removeLevel() {
 
 function populateForm(jsonData) {
     const levelsData = jsonData["config_data"]["levels"];
-    console.log(levelsData  )
     const reqLevels = levelsData.length;
     if (reqLevels > levelCounter) {
         while (levelCounter != reqLevels) {

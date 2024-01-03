@@ -11,15 +11,23 @@ function processJson(jsonData) {
 function createJsonButtons(jsonData) {
   const buttonsDiv = document.getElementById('buttons-div');
 
-  
+  let noName = 0;
+
   jsonData.forEach((json, index) => {
     const button = document.createElement('button');
     button.className = 'config-btn btn btn-primary btn-md';
-    button.textContent = `${json["config_name"]}`;
+    if (json["config_name"] == "") {
+     btnText = "No Name " + noName++;
+    }
+    else {
+      btnText = json["config_name"];
+    }
+    button.textContent = `${btnText}`;
     button.addEventListener('click', () => {
+      processJson(json);
+
       populateForm(json);
 
-      processJson(json);
     });
 
     buttonsDiv.appendChild(button);
@@ -35,8 +43,8 @@ function createDefaultButton(defJson) {
   button.className = 'config-btn btn btn-primary btn-md mr-2';
   button.textContent = `Default Config`;
   button.addEventListener('click', () => {
-    populateForm(defJson);
     processJson(defJson);
+    populateForm(defJson);
   });
 
   buttonsDiv.appendChild(button);
@@ -139,6 +147,7 @@ var container = document.querySelector("#unity-container");
       document.body.appendChild(script);
       var myUnityInstance;
       function loadUnityInstance() {
+        console.log("QYUIT")
         if (myUnityInstance) {
           myUnityInstance.Quit(function() {
             console.log("done!");
@@ -161,7 +170,6 @@ var container = document.querySelector("#unity-container");
         }).catch((message) => {
           alert(message);
         });
-        
         
       }
 

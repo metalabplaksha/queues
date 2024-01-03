@@ -72,7 +72,7 @@
     </div>
     <div id="jsonContainer" style="display: none;">
       <div class="split left p-4">
-        <form onsubmit="generateJSON(event)" id="jsonForm">
+
             <h2>Game Configuration</h2>
             <div id="button-div-wrapper" style="margin-top: 15px;">
               <p style="font-weight: bold;">Available Configurations:</p>
@@ -80,6 +80,7 @@
 
               </div>
           </div>
+          <form id="jsonForm"> 
             <div class="form-group" style="margin-top: 10px;">
               <p style="font-weight: bold;">Create custom configuration: </p>
                 <label for="scenario">Scenario:</label>
@@ -87,7 +88,7 @@
                     <option value="PCB">PCB</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display: none;">
                 <label for="spawn_prefab">Spawn Prefab:</label>
                 <select class="form-control" id="spawn_prefab" name="spawn_prefab" required>
                     <option value="PlainBoard">PlainBoard</option>
@@ -106,7 +107,7 @@
             <button type="button" class="btn btn-primary mt-3 json-btn ml-1 mr-1" id="add-level" onclick="addLevel()">Add Level</button>
             <button type="button" class="btn btn-danger mt-3 ml-1 mr-1 json-btn" onclick="removeLevel()">Remove Level</button>
 
-            <button type="submit" class="btn btn-success mt-3 json-btn ml-1 mr-1">Submit</button>
+            <button type="button" class="btn btn-success mt-3 json-btn ml-1 mr-1" onclick="generateJSON(event)">Submit</button>
           </div>
         </form>
     </div>
@@ -139,6 +140,11 @@
 
       </div>
         </div>
+        <div style="">
+          <div class="alert alert-secondary m-4" role="alert" style="text-align: center;">
+            Press ESC twice to see the cursor.
+          </div>
+      </div>
         <!-- <div id="unity-build-title">q_project</div> -->
       </div>
     </div>

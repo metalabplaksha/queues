@@ -32,7 +32,7 @@ function conversationStart(data) {
         JSON.stringify(data.response_channels)
       );
 
-      alert(data["placeholder"])
+      // alert(data["placeholder"])
     },
     () => {},
     true
