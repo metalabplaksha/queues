@@ -128,7 +128,7 @@ button:hover, input.button:hover {
   /* Control the left side */
   .left {
     left: 0;
-    width: 35%;
+    width: 30%;
     border-right-style: solid;
     border-right-width: 1px;
     border-right-color: #000000;
@@ -137,7 +137,8 @@ button:hover, input.button:hover {
   /* Control the right side */
   .right {
     right: 0;
-    width: 65%;
+    width: 70%;
+    overflow: hidden;
   }
 
   #no-game-container {
@@ -169,6 +170,7 @@ button:hover, input.button:hover {
     margin-left: 1px;
     margin-right: 1px;
     border-radius: 4px;
+    padding: 0.7% 0 0.7% 0;
 }
 
 .int-div {

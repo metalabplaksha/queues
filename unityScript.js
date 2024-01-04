@@ -137,7 +137,7 @@ var container = document.querySelector("#unity-container");
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
         canvas.style.width = "100%";
-        canvas.style.height = "62.5%";
+        canvas.style.height = "70%";
       }
 
       loadingBar.style.display = "block";
@@ -166,6 +166,7 @@ var container = document.querySelector("#unity-container");
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
+            unityInstance.matchWebGLToCanvasSize = true;
           };
         }).catch((message) => {
           alert(message);
