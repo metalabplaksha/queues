@@ -264,8 +264,8 @@ class DaveService{
             throw "Auth required";
             
         }
-        var async = data["async"] || false;
-        delete data["async"];
+        var async = false;
+        // delete data["async"];
         var that = this;
         console.debug("Deleteing " + model + " object :: ", object_id);
         return djq.ajax({

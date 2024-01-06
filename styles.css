@@ -153,14 +153,13 @@ button:hover, input.button:hover {
 
 .config-btn{
     width: auto;
-    display: inline-block;
     margin-left: 2px;
     margin-right: 2px;
 
 }
 
 #buttons-div {
-    overflow: auto;
+    overflow: scroll;
   white-space: nowrap;
 }
 
@@ -187,4 +186,14 @@ button:hover, input.button:hover {
 
 .signBtn {
     border-radius: 5px;
+}
+.cross-btn {
+    padding: 0 0 0 0;
+    width: fit-content;
+    background-color: #ffffff;
+    position: absolute;
+    margin-right: 0;
+}
+.cross-btn:hover {
+    background-color: #ffffff;
 }

@@ -12,9 +12,14 @@ function createJsonButtons(jsonData) {
   const buttonsDiv = document.getElementById('buttons-div');
 
   let noName = 0;
-
   jsonData.forEach((json, index) => {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'inline-block';
     const button = document.createElement('button');
+    button.name = json["data_id"];
+    wrapper.appendChild(button);
+    wrapper.classList.add('mb-4');
+    wrapper.appendChild(document.createElement('br'));
     button.className = 'config-btn btn btn-primary btn-md';
     if (json["config_name"] == "") {
      btnText = "No Name " + noName++;
@@ -30,7 +35,27 @@ function createJsonButtons(jsonData) {
 
     });
 
-    buttonsDiv.appendChild(button);
+    buttonsDiv.appendChild(wrapper);
+
+    const cross = document.createElement('button');
+    cross.className = 'cross-btn';
+    cross.textContent = '❌';
+    cross.width = '10px';
+    cross.name = json["data_id"];
+    cross.onclick = function() {
+      const buttonsDiv = document.getElementById('buttons-div');
+      const wrappers = buttonsDiv.querySelectorAll('div');
+      
+      wrappers.forEach(wrapper => {
+        const firstButton = wrapper.querySelector('button');
+        ds.remove
+        if (firstButton.name === cross.name) {
+          wrapper.remove();
+          ds.remove("json_configs", cross.name, () => {console.log("Success")}, () => {console.log("ERROR")}, false);
+        }
+      });
+    }
+    wrapper.appendChild(cross);
   });
 
   
@@ -40,7 +65,7 @@ function createDefaultButton(defJson) {
   const buttonsDiv = document.getElementById('buttons-div');
 
   const button = document.createElement('button');
-  button.className = 'config-btn btn btn-primary btn-md mr-2';
+  button.className = 'config-btn btn btn-primary btn-md';
   button.textContent = `Default Config`;
   button.addEventListener('click', () => {
     processJson(defJson);
@@ -58,12 +83,13 @@ function loadGame() {
   document.getElementById("jsonContainer").style.display = "block";
     document.getElementById("jsonForm").classList.add("active"); // displaying form
     document.getElementById("no-game-container").classList.remove("hidden");
+    ds.list("json_configs", {
+      "config_type": "default"
+    }, (data) => {; console.log(data);createDefaultButton(data["data"][0])}, (data) => {console.log("ERROR")})
   ds.list("json_configs", {
     "user_id": ds.user_id
   }, (data) => {; console.log(data);createJsonButtons(data["data"])}, (data) => {console.log("ERROR")});
-  ds.list("json_configs", {
-    "config_type": "default"
-  }, (data) => {; console.log(data);createDefaultButton(data["data"][0])}, (data) => {console.log("ERROR")})
+  
 }
 
 
