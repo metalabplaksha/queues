@@ -170,6 +170,7 @@ function removeLevel() {
         levelsContainer.removeChild(levelsContainer.lastChild);
         levelCounter--;
     }
+
 }
 
 function populateForm(jsonData) {
@@ -202,4 +203,6 @@ function populateForm(jsonData) {
 
         // }
     }
+    showPopup(2, "Config Loaded!");
+
 }

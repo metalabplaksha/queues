@@ -206,6 +206,26 @@
         streamer.stopVoiceRecording()
       }
     </script>
+        <script>
+          const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.textContent = 'This is a simple popup message!';
+        document.body.appendChild(popup);
+        
+    // Function to show the popup for a certain duration
+    function showPopup(durationInSeconds, text) {
+      console.log("PUPUP");
+      popup.style.display = 'block';
+      popup.classList.add('show');
+      popup.textContent = text;
+      // Hide the popup after the specified duration
+      setTimeout(function () {
+        popup.classList.remove('show');
+      }, durationInSeconds * 1000); // Convert seconds to milliseconds
+    }
+    
+    // Call the function to show the popup for 5 seconds (change the value as needed)
+        </script>
     <script src="unityScript.js"></script>
     <script src="loginScript.js"></script>
     <script src="jsonScript.js"></script>

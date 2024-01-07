@@ -33,6 +33,7 @@ function conversationStart(data) {
       );
 
       // alert(data["placeholder"])
+      showPopup(data["placeholder"].length / 13, data["placeholder"]);
     },
     () => {},
     true
@@ -41,6 +42,7 @@ function conversationStart(data) {
 
 document.getElementById("conversationBtn").onclick = () => {
   conversationStart();
+  showPopup(1, "Response Sent!");
 };
 
 signInForm.addEventListener("submit", (event) => {
