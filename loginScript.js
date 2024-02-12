@@ -3,6 +3,17 @@ const signUpBtn = document.getElementById("signUpBtn");
 const signInForm = document.getElementById("signInForm");
 const signUpForm = document.getElementById("signUpForm");
 
+
+const date = new Date();
+
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+let currentDate = `${day}-${month}-${year}`;
+// console.log(currentDate)
+
 signInBtn.addEventListener("click", () => {
   signInForm.classList.add("active");
   signUpForm.classList.remove("active");
@@ -48,23 +59,34 @@ document.getElementById("conversationBtn").onclick = () => {
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // Handle sign in logic here
-  try {
-    ds = DaveService.login(
-      "https://test.iamdave.ai",
-      "student_test",
-      document.getElementById("username").value,
-      document.getElementById("password").value,
-      { signup_apikey: "c3R1ZGVudF90ZXN0MTY4NjY0MjA3OC40Mw__" }
-    );
+  if (document.getElementById("token").value == currentDate) {
+    try {
+      ds = DaveService.login(
+        "https://test.iamdave.ai",
+        "student_test",
+        document.getElementById("username").value,
+        document.getElementById("password").value,
+        { signup_apikey: "c3R1ZGVudF90ZXN0MTY4NjY0MjA3OC40Mw__" }
+      );
+      
+    } catch {
+      console.log("login error");
+    }
     loadGame();
-  } catch {
-    console.log("login error");
-  }
+    }
+    else {
+      alert("Invalid Token");
+    }
+  
+  
 });
 
 signUpForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // Handle sign up logic here
+  if (document.getElementById("newToken").value == currentDate) {
+    loadGame();
+    
   ds.signup(
     {
       user_id: document.getElementById("newUsername").value,
@@ -83,6 +105,10 @@ signUpForm.addEventListener("submit", (event) => {
       console.log(data);
     }
   ).then(loadGame);
+  }
+  else {
+    alert("Invalid Token");
+  }
 });
 
 if (Utills.getCookie("authentication")) {
