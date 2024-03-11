@@ -85,7 +85,6 @@ signUpForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // Handle sign up logic here
   if (document.getElementById("newToken").value == currentDate) {
-    loadGame();
     
   ds.signup(
     {
