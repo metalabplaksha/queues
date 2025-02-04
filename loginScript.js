@@ -1,9 +1,3 @@
-const signInBtn = document.getElementById("signInBtn");
-const signUpBtn = document.getElementById("signUpBtn");
-const signInForm = document.getElementById("signInForm");
-const signUpForm = document.getElementById("signUpForm");
-
-
 const date = new Date();
 
 let day = date.getDate();
