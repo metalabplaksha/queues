@@ -86,8 +86,9 @@ class DaveService{
         this.api_key = settings["api_key"];
         this.user_id = settings["user_id"];
         this.settings = settings;
-        this.checkAuth();
+        this.signin_required = false;
     }
+
     checkAuth(){
         if (!this.enterprise_id)
             throw "'enterprise_id' is required"
@@ -168,11 +169,11 @@ class DaveService{
         console.debug("Posting "+model+" object :: ", data );
         return this.postRaw("/object/" + model, data, successCallback, errorCallback, cors);
     }
+
     //"/transaction/sms"
     postRaw(url, data, successCallback, errorCallback, cors){
         if(this.signin_required){
             throw "Auth required";
-            
         }
         var async = data["async"] == undefined ? true : data["async"];
         delete data["async"];
@@ -204,6 +205,7 @@ class DaveService{
             }
         })
     }
+
     /*
      * @description Update existing object/row to the model/table
      * @example if you want to update phone number of a customer with id 1

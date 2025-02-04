@@ -27,216 +27,151 @@
 
     
   </head>
-  <body>
-<script>
-  var jsonText;
-</script>
-    <div id="landingForm">
-      <div class="title-container">
-        <h1>Multi-Network Queues</h1>
-      </div>
-      <div class="container">
-        <div class="form-toggle">
-          <button id="signInBtn">Sign In</button>
-          <button id="signUpBtn">Sign Up</button>
-        </div>
-        <div class="form-container">
-          <form id="signInForm">
-            <h3>Sign In</h3>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required />
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required />
-
-            <label for="username">Token</label>
-            <input type="text" id="token" name="token" required />
-
-            <button type="submit" class="signBtn">Sign In</button>
-          </form>
-
-          <form id="signUpForm">
-            <h3>Sign Up</h3>
-            <label for="newUsername">Username</label>
-            <input type="text" id="newUsername" name="newUsername" required />
-
-            <label for="newPassword">Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              required
-            />
-
-            <label for="username">Token</label>
-            <input type="text" id="newToken" name="token" required />
-
-            <button type="submit" class="signBtn" id="">Sign Up</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div id="jsonContainer" style="display: none;">
-      <div class="split left p-4">
-
-            <h2>Game Configuration</h2>
-            <div id="button-div-wrapper" style="margin-top: 15px;">
-              <p style="font-weight: bold;">Available Configurations:</p>
-              <div id = "buttons-div" style="position: relative;">
-
-              </div>
+  <body onload="loadGame()">
+    <div id="jsonContainer" class="display:block;">
+      <div class="split left p-4 block">
+        <h2>Game Configuration</h2>
+        <form id="jsonForm" class="display:active;">
+          <div class="form-group" style="margin-top: 10px;">
+            <p style="font-weight: bold;">Create custom configuration: </p>
+            <label for="scenario">Scenario:</label>
+            <select class="form-control" id="scenario" name="scenario" required>
+              <option value="PCB">PCB</option>
+            </select>
           </div>
-          <form id="jsonForm"> 
-            <div class="form-group" style="margin-top: 10px;">
-              <p style="font-weight: bold;">Create custom configuration: </p>
-                <label for="scenario">Scenario:</label>
-                <select class="form-control" id="scenario" name="scenario" required>
-                    <option value="PCB">PCB</option>
-                </select>
-            </div>
-            <div class="form-group" style="display: none;">
-                <label for="spawn_prefab">Spawn Prefab:</label>
-                <select class="form-control" id="spawn_prefab" name="spawn_prefab" required>
-                    <option value="PlainBoard">PlainBoard</option>
-                </select>
-            </div>
-            <div class="form-group">
-              <label for="config_name">Config Name:</label>
-              <input class="form-control" id="config_name" name="config_name" required>
-              
+          <div class="form-group" style="display: none;">
+            <label for="spawn_prefab">Spawn Prefab:</label>
+            <select class="form-control" id="spawn_prefab" name="spawn_prefab" required>
+              <option value="PlainBoard">PlainBoard</option>
+            </select>
           </div>
-            
-            <div id="levels-container">
-                <!-- Dynamically generated fields for levels -->
-            </div>
-            <div class="int-div">
+          <div class="form-group">
+            <label for="config_name">Config Name:</label>
+            <input class="form-control" id="config_name" name="config_name" required>
+          </div>
+          <div id="levels-container">
+            <!-- Dynamically generated fields for levels -->
+          </div>
+          <div class="int-div">
             <button type="button" class="btn btn-primary mt-3 json-btn ml-1 mr-1" id="add-level" onclick="addLevel()">Add Level</button>
             <button type="button" class="btn btn-danger mt-3 ml-1 mr-1 json-btn" onclick="removeLevel()">Remove Level</button>
-
             <button type="button" class="btn btn-success mt-3 json-btn ml-1 mr-1" onclick="generateJSON(event)">Submit</button>
           </div>
         </form>
     </div>
-      
-    </div>
-
-    <div id = "no-game-container" class="split right hidden">
-      <p>Select a configuration to start!</p> 
-    </div>
-    <div id="unity-container" class="unity-desktop split right p-3" style="position: absolute;">
-      <canvas id="unity-canvas"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
+  </div>
+  <div id = "no-game-container" class="split right">
+    <p>Select a configuration to start!</p> 
+  </div>
+  <div id="unity-container" class="unity-desktop split right p-3" style="position: absolute;">
+    <canvas id="unity-canvas"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
       </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-
-        <!-- <div id="unity-webgl-logo"></div> -->
-        <div id="unity-fullscreen-button"></div>
-        <div id="conversation_form" class="pt-1">
-          <label for="customer_response" style="font-weight: bold;">Type Your Query Here</label>
-          <input type="text" id="customer_response" name="customer_response" required />
-          <div class="int-div">
+    </div>
+    <div id="unity-warning"> </div>
+    <div id="unity-footer">
+      <!-- <div id="unity-webgl-logo"></div> -->
+      <div id="unity-fullscreen-button"></div>
+      <div id="conversation_form" class="pt-1">
+        <label for="customer_response" style="font-weight: bold;">Type Your Query Here</label>
+        <input type="text" id="customer_response" name="customer_response" required />
+        <div class="int-div">
           <button id="RecordBtn" onclick="startRec()" class="int-btn">Record</button>
-        <button id="StopRecordBtn" onclick="stopRec()" class="int-btn">Stop Recording</button>
-        <button id="conversationBtn" class="int-btn">Send</button>
-
-      </div>
+          <button id="StopRecordBtn" onclick="stopRec()" class="int-btn">Stop Recording</button>
+          <button id="conversationBtn" class="int-btn">Send</button>
         </div>
-        <div style="">
-          <div class="alert alert-secondary m-4" role="alert" style="text-align: center;">
-            Press ESC twice to see the cursor.
-          </div>
       </div>
-        <!-- <div id="unity-build-title">q_project</div> -->
+      <div style="">
+        <div class="alert alert-secondary m-4" role="alert" style="text-align: center;">
+          Press ESC twice to see the cursor.
+        </div>
       </div>
+      <!-- <div id="unity-build-title">q_project</div> -->
     </div>
+  </div>
 
 
 
+  <script> // speech to text
+  var streamer_settings = {
+    asr: true,
+    asr_server: "https://speech.iamdave.ai",
+    recognizer: 'google',
+    model_name: "indian_english",
+    conversation_id: "deployment_queuess",
+    enterprise_id: "student_test",
+    base_url: "https://test.iamdave.ai",
+    vad: true,
+    audio_auto_stop: 10,
+    asr_type: "full",
+    asr_additional_info: {},
+    event_callback: function (status, data) {
+      //conversationStart(data["recognized_speech"]);
+      loadGame();
+      console.log("my status == "+status)
+      if (status == "asr-convResp") {
+        myUnityInstance.SendMessage(
+          "Assistantcode",
+          "spawnDave",
+          JSON.stringify(data["response_channels"])
+          );
 
-    <script> // speech to text
-      var streamer_settings = {
-        asr: true,
-        asr_server: "https://speech.iamdave.ai",
-        recognizer: 'google',
-        model_name: "indian_english",
-        conversation_id: "deployment_queuess",
-        enterprise_id: "student_test",
-        base_url: "https://test.iamdave.ai",
-        vad: true,
-        audio_auto_stop: 10,
-        asr_type: "full",
-        asr_additional_info: {},
-        event_callback: function (status, data) {
-          conversationStart(data["recognized_speech"]);
-
-          console.log("my status == "+status)
-          if (status == "asr-convResp") {
-            myUnityInstance.SendMessage(
-        "Assistantcode",
-        "spawnDave",
-        JSON.stringify(data["response_channels"])
-      );
-
-            
-          }
-          if (status == "asr-recText") {
-          }
-          if (status == "asr-processing") {
-
-          }
-          if (status == "asr-recording") {
-
-          }
-          if (status == "asr-idel") {
-
-          }
-          //that.eventCallback(event, data);
-        }
       }
+      if (status == "asr-recText") {
+      }
+      if (status == "asr-processing") {
 
-      var streamer = new Streamer(streamer_settings);
-      function startRec() {
-        streamer.startVoiceRecording({
-          voice_id: 'english-male',
-          query_type: "speech",
-          language: 'english',
-          system_response: "sr_init"
-        })
       }
-      function stopRec() {
-        streamer.stopVoiceRecording()
+      if (status == "asr-recording") {
+
       }
-    </script>
-        <script>
-          const popup = document.createElement('div');
-        popup.className = 'popup';
-        popup.textContent = 'This is a simple popup message!';
-        document.body.appendChild(popup);
-        
-    // Function to show the popup for a certain duration
-    function showPopup(durationInSeconds, text) {
-      console.log("PUPUP");
-      popup.style.display = 'block';
-      popup.classList.add('show');
-      popup.textContent = text;
-      // Hide the popup after the specified duration
-      setTimeout(function () {
-        popup.classList.remove('show');
-      }, durationInSeconds * 1000); // Convert seconds to milliseconds
+      if (status == "asr-idel") {
+
+      }
+      //that.eventCallback(event, data);
     }
+  }
+
+  var streamer = new Streamer(streamer_settings);
+  function startRec() {
+    streamer.startVoiceRecording({
+      voice_id: 'english-male',
+      query_type: "speech",
+      language: 'english',
+      system_response: "sr_init"
+    })
+  }
+  function stopRec() {
+    streamer.stopVoiceRecording()
+  }
+</script>
+<script>
+  const popup = document.createElement('div');
+  popup.className = 'popup';
+  popup.textContent = 'This is a simple popup message!';
+  document.body.appendChild(popup);
+        
+  // Function to show the popup for a certain duration
+  function showPopup(durationInSeconds, text) {
+    console.log("PUPUP");
+    popup.style.display = 'block';
+    popup.classList.add('show');
+    popup.textContent = text;
+    // Hide the popup after the specified duration
+    setTimeout(function () {
+      popup.classList.remove('show');
+    }, durationInSeconds * 1000); // Convert seconds to milliseconds
+  }
     
     // Call the function to show the popup for 5 seconds (change the value as needed)
-        </script>
-    <script src="unityScript.js"></script>
-    <script src="loginScript.js"></script>
-    <script src="jsonScript.js"></script>
+</script>
+<script src="unityScript.js"></script>
+<script src="loginScript.js"></script>
+<script src="jsonScript.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
-  </body>
-</html>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+</body></html>

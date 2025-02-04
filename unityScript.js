@@ -75,20 +75,15 @@ function createDefaultButton(defJson) {
   buttonsDiv.appendChild(button);
 }
 function loadGame() {
-
-  streamer.set("customer_id", ds.user_id);
-  streamer.set("api_key", ds.api_key);
-  ds.postRaw("/conversation/deployment_queuess/" + ds.user_id   ,{}, (data) => {eng_id = data.engagement_id;streamer.set("engagement_id", data["engagement_id"])}, () => {}, true);
-  document.getElementById("landingForm").style.display = "none";
   document.getElementById("jsonContainer").style.display = "block";
     document.getElementById("jsonForm").classList.add("active"); // displaying form
     document.getElementById("no-game-container").classList.remove("hidden");
-    ds.list("json_configs", {
-      "config_type": "default"
-    }, (data) => {; console.log(data);createDefaultButton(data["data"][0])}, (data) => {console.log("ERROR")})
-  ds.list("json_configs", {
-    "user_id": ds.user_id
-  }, (data) => {; console.log(data);createJsonButtons(data["data"])}, (data) => {console.log("ERROR")});
+  //   ds.list("json_configs", {
+  //     "config_type": "default"
+  //   }, (data) => {; console.log(data);createDefaultButton(data["data"][0])}, (data) => {console.log("ERROR")})
+  // ds.list("json_configs", {
+  //   "user_id": ds.user_id
+  // }, (data) => {; console.log(data);createJsonButtons(data["data"])}, (data) => {console.log("ERROR")});
   
 }
 

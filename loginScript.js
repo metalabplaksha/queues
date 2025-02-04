@@ -14,15 +14,6 @@ let year = date.getFullYear();
 let currentDate = `${day}-${month}-${year}`;
 // console.log(currentDate)
 
-signInBtn.addEventListener("click", () => {
-  signInForm.classList.add("active");
-  signUpForm.classList.remove("active");
-});
-
-signUpBtn.addEventListener("click", () => {
-  signUpForm.classList.add("active");
-  signInForm.classList.remove("active");
-});
 function conversationStart(data) {
   var textInput = document.getElementById("customer_response").value;
 
@@ -56,6 +47,7 @@ document.getElementById("conversationBtn").onclick = () => {
   showPopup(1, "Response Sent!");
 };
 
+/*
 signInForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // Handle sign in logic here
@@ -109,6 +101,7 @@ signUpForm.addEventListener("submit", (event) => {
     alert("Invalid Token");
   }
 });
+*/
 
 if (Utills.getCookie("authentication")) {
   loadGame();

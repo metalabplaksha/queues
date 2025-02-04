@@ -224,10 +224,12 @@ class Streamer {
     const_params = {};
     
     
-    constructor(data) {
-        console.info("Setting up streamer.");
-        this.activeStream = undefined; //[];
+    constructor() {
+        console.info("Setting up streamer (without Dave AI).");
+        this.activeStream = undefined;
+        this.audioContext = undefined; // without Dave AI
         
+        /*
         this.fps = 1
         this.asr_enabled = true
         this.wakeup_enabled = true;
@@ -319,6 +321,7 @@ class Streamer {
 
         this.initSocket();           
         this.setupRTC();
+        */
     }
         
     set(key, value){
@@ -327,6 +330,7 @@ class Streamer {
     get(key){
         return key ? this.const_params[key]: this.const_params;
     }
+
     //VAD
     // Define function called by getUserMedia 
     startUserMedia(stream) {
@@ -653,6 +657,7 @@ class Streamer {
             return false;
         }
     }
+
     //Polling functions.
     //This function polls wesocket server for intermediate results every 2 seconds.
     createPolling(uid, recognition_sid, interval = 2000) {
